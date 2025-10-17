@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SafeLink - My Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ================= BODY & BACKGROUND ================= */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            /* REMOVED: background: linear-gradient(135deg, #a8edea, #fed6e3); */
+            
+            /* --- ADDED IMAGE BACKGROUND STYLES --- */
+            background-image: url('static/background.jpg');
+            background-size: cover; /* Ensures the image covers the entire viewport */
+            background-position: center; /* Centers the image */
+            /* -------------------------------------- */
+            
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1f2937;
+            padding: 20px;
+        }
+
+        /* --- NEW: Image Blur Container (to blur the background image) --- */
+        /* This pseudo-element creates a layer that holds the background and applies the blur */
+        body::before {
+            content: '';
+            position: fixed; /* Fixed position relative to the viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            /* The key line for blurring the image */
+            filter: blur(8px); /* Adjust the '8px' value to control blur intensity */
+            z-index: -1; /* Puts the blurred background behind the content */
+        }
+        /* ----------------------------------------------------------------- */
+
+        /* ================= ACCOUNT BOX ================= */
+        .account-box {
+            /* Kept the same for a semi-transparent white box over the blurred image */
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 48px 60px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeInUp 0.9s ease forwards;
+            opacity: 0;
+        }
+
+        /* Scrollbar for possible overflow */
+        .account-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .account-box::-webkit-scrollbar-thumb {
+            background: #a0aec0;
+            border-radius: 5px;
+        }
+        .account-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Headings */
+        .account-box h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 32px;
+            color: #111827;
+        }
+
+        /* Info items */
+        .info-item {
+            background: #f3f4f6;
+            padding: 16px 20px;
+            margin: 18px 0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #334155;
+            text-align: left;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .info-item strong {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+            color: #1e293b;
+        }
+
+        /* Buttons container */
+        .account-buttons {
+            margin-top: 42px;
+        }
+
+        /* Buttons */
+        .account-buttons button,
+        .account-buttons form button {
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 14px 36px;
+            margin: 8px 12px;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+            color: white;
+            display: inline-block;
+            text-align: center;
+            user-select: none;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+        }
+        .back-btn:hover {
+            background: linear-gradient(135deg, #1e40af, #2563eb);
+            box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #b91c1c, #ef4444);
+            box-shadow: 0 10px 28px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 480px) {
+            .account-box {
+                padding: 32px 24px;
+            }
+            .account-box h2 {
+                font-size: 1.6rem;
+            }
+            .info-item {
+                font-size: 1rem;
+                padding: 14px 18px;
+            }
+            .account-buttons button,
+            .account-buttons form button {
+                font-size: 1rem;
+                padding: 12px 28px;
+                margin: 6px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="account-box">
+        <h2>My SafeLink Account</h2>
+
+        <div class="info-item">
+            <strong>Username</strong>
+            {{ session['username'] }}
+        </div>
+
+        <div class="info-item">
+            <strong>Registered Aadhar Number</strong>
+            {{ session.get('aadhar', 'Not available') }}
+        </div>
+
+        <div class="account-buttons">
+            <button onclick="window.location.href='/safelink'" class="back-btn" aria-label="Go back to Map">Go Back to Map</button>
+            <form action="/logout" method="POST" style="display:inline;">
+                <button type="submit" class="logout-btn" aria-label="Logout">Logout</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About SafeLink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ================= BODY & BACKGROUND ================= */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            /* REMOVED: background: #f9fafb; */ /* Soft, elegant off-white */
+            
+            /* --- ADDED IMAGE BACKGROUND STYLES (as a fallback) --- */
+            background-image: url('static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Ensures background stays fixed during scroll if content overflows */
+            /* --------------------------------------------------- */
+
+            color: #2e2e2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- NEW: Image Blur Container (to blur the background image) --- */
+        body::before {
+            content: '';
+            position: fixed; /* Fixed position relative to the viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keep this in sync with body background */
+            /* The key line for blurring the image */
+            filter: blur(8px); /* Adjust the '8px' value to control blur intensity */
+            z-index: -1; /* Puts the blurred background behind the content */
+        }
+        /* ----------------------------------------------------------------- */
+
+        /* ================= ABOUT BOX ================= */
+        .about-box {
+            /* Changed background to be semi-transparent white for visibility over blurred background */
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 48px 64px;
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow:
+                0 8px 16px rgb(0 0 0 / 0.05),
+                0 4px 8px rgb(0 0 0 / 0.05);
+            text-align: left;
+            line-height: 1.6;
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Scrollbar Styling */
+        .about-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .about-box::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+        .about-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* ================= HEADINGS ================= */
+        .about-box h2 {
+            font-size: 2.75rem;
+            margin-bottom: 28px;
+            font-weight: 700;
+            color: #1f2937; /* Dark gray */
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .about-box h3 {
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: #111827; /* Almost black */
+            margin-bottom: 12px;
+        }
+
+        /* ================= FEATURE GRID ================= */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin: 36px 0 48px;
+            padding: 0 4px;
+        }
+
+        .feature-card {
+            background: #f3f4f6; /* Light Gray */
+            border-radius: 12px;
+            padding: 28px 22px;
+            text-align: left;
+            box-shadow:
+                0 2px 8px rgb(0 0 0 / 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 10px 20px rgb(0 0 0 / 0.1);
+            background: #e0e7ff; /* Soft blue highlight */
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: #4b5563; /* Medium gray */
+            font-weight: 400;
+        }
+
+        /* ================= GENERAL TEXT ================= */
+        .about-box p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #374151; /* Dark gray */
+            font-weight: 400;
+        }
+
+        /* ================= BACK BUTTON ================= */
+        .back-btn {
+            display: block;
+            margin: 36px auto 0 auto;
+            padding: 14px 34px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #3b82f6);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #4338ca, #2563eb);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        /* ================= ANIMATIONS ================= */
+        @keyframes fadeInUp {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media screen and (max-width: 768px) {
+            .about-box {
+                padding: 30px 24px;
+                max-height: 85vh;
+            }
+            .about-box h2 {
+                font-size: 2rem;
+            }
+            .feature-card {
+                min-height: 150px;
+                padding: 22px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="about-box">
+        <h2>SafeLink: Community Safety in Real-Time</h2>
+
+        <p><strong>SafeLink</strong> is a cutting-edge disaster management platform that ensures the safety of individuals 
+            during emergencies. Users can request help instantly and connect with nearby helpers in real-time, 
+            creating a rapid, community-driven response system.</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Real-Time Assistance</h3>
+                <p>Share your location instantly and send alerts. Helpers nearby are notified immediately, ensuring fast support.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Location Transparency</h3>
+                <p>The interactive map displays live locations and active requests, helping responders navigate quickly to those in need.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Emergency Services</h3>
+                <p>Get access to hospitals, clinics, and police contacts directly for professional help during critical situations.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Community Engagement</h3>
+                <p>Connect with neighbors and volunteers who are ready to assist, building trust and resilience in the community.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Progress Tracking</h3>
+                <p>Monitor helpers approaching you and stay informed with live updates until assistance arrives.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Safety Assurance</h3>
+                <p>Once help is completed, the system notifies all parties, ensuring accountability and peace of mind.</p>
+            </div>
+        </div>
+
+        <p style="text-align: center; font-weight: 500; font-size: 1.1rem; margin-top: 30px;">
+            SafeLink’s mission is simple: reduce emergency response delays and ensure that <strong>no one feels alone</strong> during critical situations.
+        </p>
+
+        <button class="back-btn" onclick="window.location.href='/safelink'">Go Back to Dashboard</button>
+    </div>
+</body>
+</html>

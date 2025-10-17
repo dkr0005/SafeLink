@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SafeLink - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body class="safelink-page">
+
+<!-- Account Popup -->
+<div id="accountPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>Account Details</h2>
+        <p id="popupUsername">{{ username }}</p>
+        <p id="popupAadhar">{{ userAadhar }}</p>
+        <button id="logoutBtn">Logout</button>
+        <button id="closePopupBtn">Go Back</button>
+    </div>
+</div>
+
+<!-- About Popup -->
+<div id="aboutPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>About SafeLink</h2>
+        <p>SafeLink is a real-time disaster management platform connecting people in need with nearby helpers. It allows users to share their location, send urgent alerts, and locate nearby hospitals and police stations in case of emergencies.</p>
+        <p>The platform helps ensure quick assistance during floods, earthquakes, accidents, and other critical situations. Notifications allow users to stay aware of nearby users needing help, while map markers indicate live locations and help requests for better coordination.</p>
+        <p>SafeLink’s mission is to improve safety and response times during disasters, providing a community-driven support system in real-time.</p>
+        <button id="closeAboutPopupBtn">Go Back</button>
+    </div>
+</div>
+
+<!-- Top bar -->
+<header class="top-bar">
+    <h1>SafeLink Dashboard</h1>
+    <div class="top-buttons">
+        <button id="showLocationBtn">Share My Location</button>
+        <button id="helpMeBtn">Help Me</button>
+    </div>
+</header>
+
+<!-- Side menu -->
+<aside class="side-menu">
+    <h3>Menu</h3>
+    <button id="accountBtn">Account</button>
+    <button id="aboutBtn">About SafeLink</button>
+    <button id="hospitalBtn">Nearby Hospitals</button>
+    <button id="policeBtn">Contact Police</button>
+</aside>
+
+<!-- Notifications panel -->
+<aside class="side-popup" id="notifications">
+    <h4>Notifications</h4>
+    <!-- Dynamic alerts will be inserted here -->
+</aside>
+
+<!-- Map container -->
+<div id="mapBox">
+    <div id="map"></div>
+</div>
+
+<!-- Pass user info to JS -->
+<script>
+    const username = "{{ username }}";
+    const userAadhar = "{{ userAadhar }}";
+</script>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Your main JS -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
